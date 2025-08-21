@@ -1,0 +1,180 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Body */
+body {
+    background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+
+}
+
+/* Heading */
+h1 {
+    color: #2f4f4f;
+    margin-bottom: 5px;
+}
+
+p {
+    color: #444;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* Form */
+form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 450px;
+}
+
+.task {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #80cbc4;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.task:focus {
+    border-color: #26a69a;
+    box-shadow: 0 0 8px rgba(38, 166, 154, 0.5);
+}
+
+.saveButton {
+    background: #26a69a;
+    border: none;
+    color: white;
+    padding: 12px 18px;
+    margin-left: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.saveButton:hover {
+    background: #00897b;
+    transform: scale(1.05);
+}
+
+/* Task List Section */
+h2 {
+    margin: 15px 0;
+    color: #2e3d3d;
+}
+
+.taskList {
+    list-style: decimal;
+    padding-left: 20px;
+    width: 100%;
+    max-width: 450px;
+}
+
+.taskList li {
+    background: #e0f2f1;
+    padding: 10px 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeIn 0.4s ease-in;
+    font-size: 15px;
+    color: #2f4f4f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Delete Button */
+.taskList li button {
+    background: #80cbc4;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.taskList li button:hover {
+    background: #26a69a;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+footer {
+    margin-top: auto;
+    padding: 15px;
+    text-align: center;
+    background: #26a69a;
+    color: white;
+    font-size: 14px;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+    width: 100%;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styling */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* logo left, title center/right */
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #009688, #26a69a);
+    /* smooth gradient */
+    color: white;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+/* Logo box */
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.logo {
+    width: 60px;
+    /* apni requirement ke hisaab se adjust karo */
+    height: auto;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.logo:hover {
+    animation: zoomEffect 0.5s forwards;
+}
+
+@keyframes zoomEffect {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.2);
+    }
+}
