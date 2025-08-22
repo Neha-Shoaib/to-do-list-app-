@@ -38,7 +38,7 @@ function renderTasks() {
 
         // delete button
         let delBtn = document.createElement("button");
-        delBtn.textContent = "❌";
+        delBtn.textContent = "🗑";
         delBtn.style.marginLeft = "10px";
         delBtn.style.cursor = "pointer";
         li.appendChild(delBtn);
