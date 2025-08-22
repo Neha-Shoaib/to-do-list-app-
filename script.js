@@ -1,14 +1,40 @@
+window.onload = renderTasks;
+
 let taskContainer = JSON.parse(localStorage.getItem("tasks")) || [];
 let save = document.querySelector(".saveButton");
 let savedTasks = document.querySelector(".taskList");
 let taskToSave = document.querySelector(".task");
 
+// Function to add task
+function addTask(inputValue) {
+    taskContainer.push({ text: inputValue, checked: false }); // store as object
+    localStorage.setItem("tasks", JSON.stringify(taskContainer));
+    renderTasks();
+}
+
 // Function to render tasks on screen
 function renderTasks() {
     savedTasks.innerHTML = ""; // clear old list first
-    taskContainer.forEach((task) => {
+
+    taskContainer.forEach((task, index) => {
         let li = document.createElement("li");
-        li.textContent = task;
+
+        // checkbox
+        let checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.checked;
+
+        // update checked state
+        checkbox.addEventListener("change", () => {
+            taskContainer[index].checked = checkbox.checked;
+            localStorage.setItem("tasks", JSON.stringify(taskContainer));
+        });
+
+        // text
+        let text = document.createTextNode(task.text);
+
+        li.appendChild(checkbox);
+        li.appendChild(text);
 
         // delete button
         let delBtn = document.createElement("button");
@@ -18,23 +44,13 @@ function renderTasks() {
         li.appendChild(delBtn);
 
         delBtn.addEventListener("click", () => {
-            li.remove(); //remove from UI
-            taskContainer = taskContainer.filter(t => t !== task); //remove from array
-            localStorage.setItem("tasks", JSON.stringify(taskContainer)); //storing in local Storage
+            taskContainer.splice(index, 1); // remove from array
+            localStorage.setItem("tasks", JSON.stringify(taskContainer));
+            renderTasks(); // re-render
         });
 
         savedTasks.appendChild(li);
     });
-}
-
-// first render from localStorage when page loads
-renderTasks();
-
-// function to add task
-function addTask(inputValue) {
-    taskContainer.push(inputValue);
-    localStorage.setItem("tasks", JSON.stringify(taskContainer)); // save in local storage
-    renderTasks();
 }
 
 // click button
@@ -45,7 +61,7 @@ save.addEventListener("click", (e) => {
         addTask(inputValue);
         taskToSave.value = "";
     } else {
-        alert("please enter a task!");
+        alert("Please enter a task!");
     }
 });
 
@@ -58,7 +74,7 @@ taskToSave.addEventListener("keydown", (e) => {
             addTask(inputValue);
             taskToSave.value = "";
         } else {
-            alert("please enter a task!");
+            alert("Please enter a task!");
         }
     }
 });

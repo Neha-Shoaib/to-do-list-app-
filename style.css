@@ -38,34 +38,28 @@ form {
 }
 
 .task {
-    flex: 1;
-    padding: 12px;
-    border: 2px solid #80cbc4;
-    border-radius: 8px;
-    outline: none;
     transition: 0.3s;
+    width: 300px;
+      padding: 10px 35px 10px 10px; /* right padding for icon */
+      font-size: 16px;
+      border: 1px solid #b19898;
+      border-radius: 5px;
 }
-
-.task:focus {
-    border-color: #26a69a;
+input.task:focus {
+    border:1px solid #5bbbb1;
     box-shadow: 0 0 8px rgba(38, 166, 154, 0.5);
+      outline: none; 
 }
+     .saveButton {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;   /* image size */
+      height: 20px;
+      cursor: pointer;
+    } 
 
-.saveButton {
-    background: #26a69a;
-    border: none;
-    color: white;
-    padding: 12px 18px;
-    margin-left: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.saveButton:hover {
-    background: #00897b;
-    transform: scale(1.05);
-}
 
 /* Task List Section */
 h2 {
@@ -178,3 +172,9 @@ header {
         transform: scale(1.2);
     }
 }
+    
+      .input-wrapper {
+      position: relative;
+      display: inline-block;
+    
+    }
