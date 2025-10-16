@@ -1,58 +1,81 @@
 window.onload = renderTasks;
-let currentCategory = "all"; // ✅ lowercase for consistency
+let currentCategory = "all";
+let currentPriority = "all"; 
 let taskContainer = JSON.parse(localStorage.getItem("tasks")) || [];
+
 let taskdeadline = document.getElementById("deadlineInput");
 let save = document.querySelector(".saveButton");
 let savedTasks = document.querySelector(".taskList");
 let taskToSave = document.querySelector(".taskInput");
 let priority = document.getElementById("priorityInput");
-let priorityDisplay = document.getElementsByClassName("showPriority");
 let toggleButton = document.getElementById('toggleBtn');
 let body = document.body;
+
 toggleButton.addEventListener("click", () => {
     body.classList.toggle('dark-mode');
 });
-// Function to add task
+
+//  Priority filter dropdown
+let priorityFilter = document.getElementById("priorityFilter");
+priorityFilter.addEventListener("change", () => {
+    currentPriority = priorityFilter.value.toLowerCase();
+    renderTasks();
+});
+
+// Add Task
 function addTask(inputValue, deadlineValue, priorityValue) {
     taskContainer.push({
         text: inputValue,
         checked: false,
         deadline: deadlineValue,
-        priority: priorityValue,
-        // ✅ never save "all" as a category
+        priority: priorityValue || "none",
         category: currentCategory === "all" ? "Uncategorized" : currentCategory
-
     });
     localStorage.setItem("tasks", JSON.stringify(taskContainer));
     renderTasks();
 }
 
-// Function to render tasks on screen
+// Render Tasks
 function renderTasks() {
-    savedTasks.innerHTML = ""; // clear old list
+    savedTasks.innerHTML = "";
 
-
+    //  Filter by both category and priority
     let filteredTasks = taskContainer.filter(task =>
-        currentCategory === "all" || task.category.toLowerCase() === currentCategory
+        (currentCategory === "all" || task.category.toLowerCase() === currentCategory) &&
+        (currentPriority === "all" || task.priority.toLowerCase() === currentPriority)
     );
 
     filteredTasks.forEach((task) => {
         let li = document.createElement("li");
         let taskContent = document.createElement("div");
         taskContent.classList.add("taskContent");
-        // checkbox
+
         let checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.checked = task.checked;
-        checkbox.style.paddingRight = "30px";
 
         let showdeadline = document.createElement("span");
         showdeadline.className = "taskdeadline";
-        showdeadline.textContent = task.deadline ? "Deadline:" + task.deadline : "No deadline";
+        showdeadline.textContent = task.deadline ? "Deadline: " + task.deadline : "No deadline";
 
+        let textSpan = document.createElement("span");
+        textSpan.classList.add("taskText");
+        textSpan.textContent = task.text;
 
-
+        let taskTextBox = document.createElement("div");
+        taskTextBox.className = "taskTextBox";
+        taskTextBox.appendChild(textSpan);
+        taskTextBox.appendChild(showdeadline);
         checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                textSpan.style.textDecoration = "line-through";
+                li.style.backgroundColor = "lightgray";
+                showdeadline.style.backgroundColor = "lightgray";
+            } else {
+                textSpan.style.textDecoration = "none";
+                li.style.backgroundColor = "white";
+                showdeadline.style.backgroundColor = "#ffe0e0";
+            }
             let realIndex = taskContainer.findIndex(t =>
                 t.text === task.text && t.category === task.category
             );
@@ -60,53 +83,22 @@ function renderTasks() {
                 taskContainer[realIndex].checked = checkbox.checked;
                 localStorage.setItem("tasks", JSON.stringify(taskContainer));
             }
-            if (checkbox.checked) {
-                textSpan.style.textDecoration = "line-through";
-                li.style.backgroundColor = "lightgray";
-                showdeadline.style.backgroundColor = "lightgray";
-            }
-            else {
-                textSpan.style.textDecoration = "none";
-                li.style.backgroundColor = "white";
-                showdeadline.style.backgroundColor = "#ffe0e0";
-            }
+
 
         });
 
-        // text
-        let taskTextBox = document.createElement("div");
-        taskTextBox.className = "taskTextBox";
-        let textSpan = document.createElement("span");
-        textSpan.classList.add("taskText");
-        textSpan.textContent = task.text;
-        taskContent.appendChild(checkbox);
-        taskTextBox.appendChild(textSpan);
-        if (task.checked) {
-            textSpan.style.textDecoration = "line-through";
-            li.style.backgroundColor = "lightgray";
-
-        }
-        else {
-            textSpan.style.textDecoration = "none";
-            li.style.backgroundColor = "white";
-
-        }
-
-        // button Wrapper
         let btnDiv = document.createElement("div");
         btnDiv.classList.add("taskButtons");
 
         let editBtn = document.createElement("button");
         editBtn.classList.add("edit");
         editBtn.textContent = "✏️";
-        editBtn.style.marginLeft = "5px";
-        editBtn.style.cursor = "pointer";
-
         editBtn.onclick = () => {
-            let newtask = prompt("Enter task here", task.text);
-            if (newtask !== "" && newtask.trim() !== "") {
-                let realIndex = taskContainer.findIndex(t => t.text === task.text && t.category === task.category);
-
+            let newtask = prompt("Enter new task", task.text);
+            if (newtask && newtask.trim() !== "") {
+                let realIndex = taskContainer.findIndex(t =>
+                    t.text === task.text && t.category === task.category
+                );
                 if (realIndex > -1) {
                     taskContainer[realIndex].text = newtask.trim();
                     localStorage.setItem("tasks", JSON.stringify(taskContainer));
@@ -114,13 +106,10 @@ function renderTasks() {
                 }
             }
         };
-        // delete button
+
         let delBtn = document.createElement("button");
         delBtn.classList.add("delete");
         delBtn.textContent = "🗑";
-        delBtn.style.cursor = "pointer";
-
-
         delBtn.addEventListener("click", () => {
             let realIndex = taskContainer.findIndex(t =>
                 t.text === task.text && t.category === task.category
@@ -131,32 +120,21 @@ function renderTasks() {
                 renderTasks();
             }
         });
+
         let prioritySpan = document.createElement("span");
         prioritySpan.classList.add("prioritySpan");
         prioritySpan.textContent = task.priority;
-        if (task.priority === "high") {
-            prioritySpan.classList.add("priority-high");
+        if (task.priority === "high") prioritySpan.classList.add("priority-high");
+        else if (task.priority === "medium") prioritySpan.classList.add("priority-medium");
+        else if (task.priority === "low") prioritySpan.classList.add("priority-low");
 
-        }
-        else if (task.priority === "medium") {
-            prioritySpan.classList.add("priority-medium");
-            // prioritySpan.textContent= task;
-
-        }
-        else if (task.priority === "low") {
-            prioritySpan.classList.add("priority-low");
-            // prioritySpan.textContent= "Low";
-
-        }
         btnDiv.appendChild(prioritySpan);
         btnDiv.appendChild(editBtn);
         btnDiv.appendChild(delBtn);
-        taskTextBox.appendChild(showdeadline);
-        taskContent.appendChild(taskTextBox)
-        // taskContent.appendChild(prioritySpan);
-        li.appendChild(taskContent);
-        // li.appendChild(showdeadline);
 
+        taskContent.appendChild(checkbox);
+        taskContent.appendChild(taskTextBox);
+        li.appendChild(taskContent);
         li.appendChild(btnDiv);
         savedTasks.appendChild(li);
     });
@@ -168,14 +146,11 @@ save.addEventListener("click", (e) => {
     let inputValue = taskToSave.value.trim();
     let deadlineValue = taskdeadline.value.trim();
     let priorityValue = priority.value.trim();
-
     if (inputValue !== "") {
         addTask(inputValue, deadlineValue, priorityValue);
         taskToSave.value = "";
         taskdeadline.value = "";
-    } else {
-        alert("Please enter a task!");
-    }
+    } else alert("Please enter a task!");
 });
 
 // Enter key
@@ -189,9 +164,7 @@ taskToSave.addEventListener("keydown", (e) => {
             addTask(inputValue, deadlineValue, priorityValue);
             taskToSave.value = "";
             deadlineValue.value = "";
-        } else {
-            alert("Please enter a task!");
-        }
+        } else alert("Please enter a task!");
     }
 });
 
@@ -213,10 +186,10 @@ function outsideClickListener(event) {
     }
 }
 
-// ✅ Function to change category
+// Category Select
 function selectCategory(cat) {
-    currentCategory = cat.toLowerCase(); // store lowercase
+    currentCategory = cat.toLowerCase();
     document.getElementById("currentCat").textContent =
-        cat === "all" ? "All" : cat; // show nicely
+        cat === "all" ? "All" : cat;
     renderTasks();
 }

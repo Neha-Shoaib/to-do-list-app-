@@ -6,6 +6,7 @@
     <title>To-do List</title>
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="assets/logo.png" type="image/x-icon">
+    
 </head>
 
 <body>
@@ -24,7 +25,7 @@
         </h3>
         <button onclick="closeSidebar()" class="closeButton">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
-                stroke="#a81f1f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+                stroke="#083531" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
                 class="lucide lucide-x-icon lucide-x">
                 <path d="M18 6 6 18" />
                 <path d="m6 6 12 12" />
@@ -64,8 +65,18 @@
         </div>
 
     </form>
-    <!-- <h2>Your Tasks:</h2> -->
-    <h2>Current Category: <span id="currentCat">All</span></h2>
+    <h2 class="heading">Current Category: <span id="currentCat">All</span></h2>
+   <!-- Priority Filter -->
+<div class="priority-filter">
+  <label for="priorityFilter" class="filter-label" id="heading">Filter by Priority:</label>
+  <select id="priorityFilter" class="priority-dropdown">
+    <option value="all">⚪ All</option>
+    <option value="high">🔴 High</option>
+    <option value="medium">🟠 Medium</option>
+    <option value="low">🔵Low</option>
+  </select>
+</div>
+
     </span>
     <ol class="taskList"></ol>
     <footer>
