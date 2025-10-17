@@ -1,6 +1,6 @@
 window.onload = renderTasks;
 let currentCategory = "all";
-let currentPriority = "all"; 
+let currentPriority = "all";
 let taskContainer = JSON.parse(localStorage.getItem("tasks")) || [];
 
 let taskdeadline = document.getElementById("deadlineInput");

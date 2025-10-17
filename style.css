@@ -3,14 +3,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family:sans-serif;
+  font-family: sans-serif;
 }
 
 /* Body */
 .bulb {
   position: fixed;
   top: 20px;
-  right: 20px;
+  right: 50px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -19,6 +19,7 @@
   box-shadow: 0 0 10px #aaa;
   cursor: pointer;
   transition: all 0.3s ease;
+
 }
 
 /* When dark mode is active */
@@ -48,11 +49,7 @@ h1 {
   margin-bottom: 5px;
 }
 
-p {
-  color: #444;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
+
 
 /* Form */
 form {
@@ -81,7 +78,6 @@ form {
   font-size: 14px;
   outline: none;
   transition: 0.3s ease;
-  background: #f9f9f9;
   color: #333;
   cursor: pointer;
   margin-top: 5px;
@@ -198,7 +194,7 @@ footer {
   margin-top: auto;
   padding: 15px;
   text-align: center;
-  background: #26a69a;
+  background: linear-gradient(135deg, #032c28, #04f5dd);
   color: white;
   font-size: 14px;
   border-radius: 8px 8px 0 0;
@@ -214,7 +210,7 @@ footer {
   justify-content: space-between;
   gap: 10px;
   padding: 15px 25px;
-  background: linear-gradient(135deg, #009688, #26a69a);
+  background: linear-gradient(135deg, #032c28, #04f5dd);
   color: white;
   border-radius: 0 0 15px 15px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -298,6 +294,8 @@ header {
 
 .info {
   font-size: small;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
 .closeButton {
@@ -421,6 +419,7 @@ header {
 .input-wrapper {
   text-align: center;
 }
+
 .priority-filter {
   display: flex;
   justify-content: center;
@@ -456,7 +455,10 @@ body.dark-mode .priority-dropdown {
   color: #fff;
   border-color: #aaa;
 }
-body.dark-mode .info, body.dark-mode .heading, body.dark-mode  #heading{
+
+body.dark-mode .info,
+body.dark-mode .heading,
+body.dark-mode #heading {
   color: white;
 }
 
@@ -468,9 +470,17 @@ body.dark-mode .info, body.dark-mode .heading, body.dark-mode  #heading{
     width: 300px;
   }
 
+  .bulb {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    width: 45px;
+    height: 45px;
+  }
+
   .hamburger {
     position: absolute;
-    left: -2px;
+    left: 20px;
     top: 12px;
   }
 
@@ -504,6 +514,24 @@ body.dark-mode .info, body.dark-mode .heading, body.dark-mode  #heading{
   }
 
 }
+
+@media (max-width:320px) {
+  .bulb {
+    position: absolute;
+    right: 0px;
+    top: 20px;
+    width: 45px;
+    height: 45px;
+  }
+
+  .hamburger {
+    position: absolute;
+    left: 0;
+    top: 12px;
+  }
+
+}
+
 /* tablet screen */
 @media (min-width:601px) and (max-width:899px) {
   .taskList {
