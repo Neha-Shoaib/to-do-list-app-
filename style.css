@@ -523,7 +523,9 @@ body.dark-mode #heading {
     width: 45px;
     height: 45px;
   }
-
+.heading{
+  text-align: center;
+}
   .hamburger {
     position: absolute;
     left: 0;
